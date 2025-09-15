@@ -1,0 +1,31 @@
+{
+  "timestamp": "2025-09-15T10:57:53.329578",
+  "url": "https://httpbin.org/get",
+  "status_code": 200,
+  "headers": {
+    "Date": "Mon, 15 Sep 2025 03:57:55 GMT",
+    "Content-Type": "application/json",
+    "Content-Length": "625",
+    "Connection": "keep-alive",
+    "Server": "gunicorn/19.9.0",
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Credentials": "true"
+  },
+  "content": {
+    "args": {},
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Accept-Language": "en-US,en;q=0.9",
+      "Cookie": "__Host-xxx=...; othercookie=...;",
+      "Host": "httpbin.org",
+      "Sec-Fetch-Dest": "empty",
+      "Sec-Fetch-Mode": "cors",
+      "Sec-Fetch-Site": "same-origin",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "X-Amzn-Trace-Id": "Root=1-68c78ec2-3f0251215c6218603bcb5fef"
+    },
+    "origin": "125.164.17.136",
+    "url": "https://httpbin.org/get"
+  }
+}

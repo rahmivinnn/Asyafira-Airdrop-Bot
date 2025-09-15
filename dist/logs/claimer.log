@@ -1,0 +1,7 @@
+2025-09-15 11:33:57 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:33:57 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:33:57 - utils.claimer - INFO - Extracted URL from cookie: https://httpbin.org/post
+2025-09-15 11:33:57 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:33:57 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:33:57 - root - INFO - HTTP Method: POST
+2025-09-15 11:33:57 - root - ERROR - No scheduling option provided. Use --run-once, --run-datetime, or --daily-time

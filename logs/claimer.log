@@ -1,0 +1,209 @@
+2025-09-15 10:51:06 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 10:57:10 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 10:57:10 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 10:57:10 - root - INFO - Configuration validation passed
+2025-09-15 10:57:17 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 10:57:17 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 10:57:17 - root - ERROR - Invalid JSON payload: Expecting property name enclosed in double quotes: line 1 column 2 (char 1)
+2025-09-15 10:57:34 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 10:57:42 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 10:57:42 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 10:57:42 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 10:57:42 - root - INFO - HTTP Method: POST
+2025-09-15 10:57:42 - root - INFO - Running claim immediately...
+2025-09-15 10:57:42 - __main__ - INFO - Starting claim job for: https://httpbin.org/post
+2025-09-15 10:57:42 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 10:57:42 - utils.claimer - INFO - Starting claim attempt for URL: https://httpbin.org/post
+2025-09-15 10:57:42 - utils.claimer - INFO - Method: POST, Max retries: 3, Timeout: 10s
+2025-09-15 10:57:42 - utils.claimer - INFO - Attempt 1/3
+2025-09-15 10:57:44 - utils.claimer - INFO - Response status: 200
+2025-09-15 10:57:44 - utils.claimer - INFO - Claim successful on attempt 1
+2025-09-15 10:57:44 - utils.claimer - INFO - Raw response saved to: responses\2025-09-15T10-57-44-110372_success_response.json
+2025-09-15 10:57:44 - __main__ - INFO - Claim completed successfully
+2025-09-15 10:57:44 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 10:57:44 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 10:57:51 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 10:57:51 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 10:57:51 - root - INFO - Target URL: https://httpbin.org/get
+2025-09-15 10:57:51 - root - INFO - HTTP Method: GET
+2025-09-15 10:57:51 - root - INFO - Running claim immediately...
+2025-09-15 10:57:51 - __main__ - INFO - Starting claim job for: https://httpbin.org/get
+2025-09-15 10:57:51 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 10:57:51 - utils.claimer - INFO - Starting claim attempt for URL: https://httpbin.org/get
+2025-09-15 10:57:51 - utils.claimer - INFO - Method: GET, Max retries: 3, Timeout: 10s
+2025-09-15 10:57:51 - utils.claimer - INFO - Attempt 1/3
+2025-09-15 10:57:53 - utils.claimer - INFO - Response status: 200
+2025-09-15 10:57:53 - utils.claimer - INFO - Claim successful on attempt 1
+2025-09-15 10:57:53 - utils.claimer - INFO - Raw response saved to: responses\2025-09-15T10-57-53-329578_success_response.json
+2025-09-15 10:57:53 - __main__ - INFO - Claim completed successfully
+2025-09-15 10:57:53 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 10:57:53 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 10:58:01 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 10:58:01 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 10:58:01 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 10:58:01 - root - INFO - HTTP Method: POST
+2025-09-15 10:58:01 - root - INFO - Scheduled: One-time run at 2025-09-15 10:59:00
+2025-09-15 10:58:01 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 10:58:01 - root - INFO - Scheduler started successfully
+2025-09-15 10:58:01 - root - INFO - Press Ctrl+C to stop the bot...
+2025-09-15 11:01:17 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:01:17 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 11:01:17 - root - INFO - Testing Telegram notifications...
+2025-09-15 11:01:17 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:01:17 - root - ERROR - Telegram test failed
+2025-09-15 11:07:07 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:07:21 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:07:21 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 11:07:21 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:07:21 - root - INFO - HTTP Method: POST
+2025-09-15 11:07:21 - root - INFO - Running claim immediately...
+2025-09-15 11:07:21 - __main__ - INFO - Starting claim job for: https://httpbin.org/post
+2025-09-15 11:07:21 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:07:21 - utils.claimer - INFO - Starting claim attempt for URL: https://httpbin.org/post
+2025-09-15 11:07:21 - utils.claimer - INFO - Method: POST, Max retries: 3, Timeout: 10s
+2025-09-15 11:07:21 - utils.claimer - INFO - Attempt 1/3
+2025-09-15 11:07:24 - utils.claimer - INFO - Response status: 200
+2025-09-15 11:07:24 - utils.claimer - INFO - Claim successful on attempt 1
+2025-09-15 11:07:24 - utils.claimer - INFO - Raw response saved to: responses\2025-09-15T11-07-24-065575_success_response.json
+2025-09-15 11:07:24 - __main__ - INFO - Claim completed successfully
+2025-09-15 11:07:24 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:07:24 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:09:36 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:09:36 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 11:09:36 - root - INFO - Target URL: https://api.example-airdrop.com/claim
+2025-09-15 11:09:36 - root - INFO - HTTP Method: POST
+2025-09-15 11:09:36 - root - INFO - Scheduled: Daily at 07:00 UTC
+2025-09-15 11:09:36 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:09:36 - root - INFO - Scheduler started successfully
+2025-09-15 11:09:36 - root - INFO - Press Ctrl+C to stop the bot...
+2025-09-15 11:15:30 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:15:30 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 11:15:30 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:15:30 - utils.claimer - WARNING - Could not extract URL from cookie
+2025-09-15 11:15:30 - root - ERROR - Task URL is required. Provide via --task-url, TASK_URL in .env, or ensure URL is available in cookie
+2025-09-15 11:16:02 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:16:02 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 11:16:02 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:16:02 - utils.claimer - INFO - Extracted URL from cookie: https://api.example-airdrop.com/claim
+2025-09-15 11:16:02 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:16:02 - root - INFO - Target URL: https://api.example-airdrop.com/claim
+2025-09-15 11:16:02 - root - INFO - HTTP Method: POST
+2025-09-15 11:16:02 - root - INFO - Running claim immediately...
+2025-09-15 11:16:02 - __main__ - INFO - Starting claim job for: https://api.example-airdrop.com/claim
+2025-09-15 11:16:02 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:16:02 - utils.claimer - INFO - Starting claim attempt for URL: https://api.example-airdrop.com/claim
+2025-09-15 11:16:02 - utils.claimer - INFO - Method: POST, Max retries: 3, Timeout: 30s
+2025-09-15 11:16:02 - utils.claimer - INFO - Attempt 1/3
+2025-09-15 11:16:03 - utils.claimer - WARNING - Connection error on attempt 1/3: HTTPSConnectionPool(host='api.example-airdrop.com', port=443): Max retries exceeded with url: /claim (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001B9D31D4190>: Failed to resolve 'api.example-airdrop.com' ([Errno 11001] getaddrinfo failed)"))
+2025-09-15 11:16:03 - utils.claimer - INFO - Waiting 5s before retry...
+2025-09-15 11:16:08 - utils.claimer - INFO - Attempt 2/3
+2025-09-15 11:16:08 - utils.claimer - WARNING - Connection error on attempt 2/3: HTTPSConnectionPool(host='api.example-airdrop.com', port=443): Max retries exceeded with url: /claim (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001B9D3A0F290>: Failed to resolve 'api.example-airdrop.com' ([Errno 11001] getaddrinfo failed)"))
+2025-09-15 11:16:08 - utils.claimer - INFO - Waiting 5s before retry...
+2025-09-15 11:16:13 - utils.claimer - INFO - Attempt 3/3
+2025-09-15 11:16:14 - utils.claimer - WARNING - Connection error on attempt 3/3: HTTPSConnectionPool(host='api.example-airdrop.com', port=443): Max retries exceeded with url: /claim (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001B9D3A220D0>: Failed to resolve 'api.example-airdrop.com' ([Errno 11001] getaddrinfo failed)"))
+2025-09-15 11:16:14 - __main__ - ERROR - Claim failed: Connection error after 3 attempts: HTTPSConnectionPool(host='api.example-airdrop.com', port=443): Max retries exceeded with url: /claim (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x000001B9D3A220D0>: Failed to resolve 'api.example-airdrop.com' ([Errno 11001] getaddrinfo failed)"))
+2025-09-15 11:16:14 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:16:37 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:16:37 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 11:16:37 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:16:37 - utils.claimer - INFO - Extracted URL from cookie: https://httpbin.org/post
+2025-09-15 11:16:37 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:16:37 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:16:37 - root - INFO - HTTP Method: POST
+2025-09-15 11:16:37 - root - INFO - Running claim immediately...
+2025-09-15 11:16:37 - __main__ - INFO - Starting claim job for: https://httpbin.org/post
+2025-09-15 11:16:37 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:16:37 - utils.claimer - INFO - Starting claim attempt for URL: https://httpbin.org/post
+2025-09-15 11:16:37 - utils.claimer - INFO - Method: POST, Max retries: 3, Timeout: 30s
+2025-09-15 11:16:37 - utils.claimer - INFO - Attempt 1/3
+2025-09-15 11:16:38 - utils.claimer - INFO - Response status: 200
+2025-09-15 11:16:38 - utils.claimer - INFO - Claim successful on attempt 1
+2025-09-15 11:16:38 - utils.claimer - INFO - Raw response saved to: responses\2025-09-15T11-16-38-574117_success_response.json
+2025-09-15 11:16:38 - __main__ - INFO - Claim completed successfully
+2025-09-15 11:16:38 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:16:38 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:18:35 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:18:35 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 11:18:35 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:18:35 - utils.claimer - INFO - Extracted URL from cookie: https://httpbin.org/post
+2025-09-15 11:18:35 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:18:35 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:18:35 - root - INFO - HTTP Method: POST
+2025-09-15 11:18:35 - root - INFO - Scheduled: Daily at 07:00 UTC
+2025-09-15 11:18:35 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:18:35 - root - INFO - Scheduler started successfully
+2025-09-15 11:18:35 - root - INFO - Press Ctrl+C to stop the bot...
+2025-09-15 11:26:22 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:26:22 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 11:26:22 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:26:22 - utils.claimer - INFO - Extracted URL from cookie: https://httpbin.org/post
+2025-09-15 11:26:22 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:26:22 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:26:22 - root - INFO - HTTP Method: POST
+2025-09-15 11:26:22 - root - INFO - Running claim immediately...
+2025-09-15 11:26:22 - __main__ - INFO - Starting claim job for: https://httpbin.org/post
+2025-09-15 11:26:22 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:26:22 - utils.claimer - INFO - Starting claim attempt for URL: https://httpbin.org/post
+2025-09-15 11:26:22 - utils.claimer - INFO - Method: POST, Max retries: 3, Timeout: 30s
+2025-09-15 11:26:22 - utils.claimer - INFO - Attempt 1/3
+2025-09-15 11:26:22 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:26:22 - __main__ - WARNING - Telegram notifications not configured (TELEGRAM_TOKEN or CHAT_ID missing)
+2025-09-15 11:26:22 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:26:22 - utils.claimer - INFO - Extracted URL from cookie: https://httpbin.org/post
+2025-09-15 11:26:22 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:26:22 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:26:22 - root - INFO - HTTP Method: POST
+2025-09-15 11:26:22 - root - INFO - Running claim immediately...
+2025-09-15 11:26:22 - __main__ - INFO - Starting claim job for: https://httpbin.org/post
+2025-09-15 11:26:22 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:26:22 - utils.claimer - INFO - Starting claim attempt for URL: https://httpbin.org/post
+2025-09-15 11:26:22 - utils.claimer - INFO - Method: POST, Max retries: 3, Timeout: 30s
+2025-09-15 11:26:22 - utils.claimer - INFO - Attempt 1/3
+2025-09-15 11:26:24 - utils.claimer - INFO - Response status: 200
+2025-09-15 11:26:24 - utils.claimer - INFO - Claim successful on attempt 1
+2025-09-15 11:26:24 - utils.claimer - INFO - Raw response saved to: responses\2025-09-15T11-26-24-687373_success_response.json
+2025-09-15 11:26:24 - __main__ - INFO - Claim completed successfully
+2025-09-15 11:26:24 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:26:24 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:26:25 - utils.claimer - INFO - Response status: 200
+2025-09-15 11:26:25 - utils.claimer - INFO - Claim successful on attempt 1
+2025-09-15 11:26:25 - utils.claimer - INFO - Raw response saved to: responses\2025-09-15T11-26-25-212490_success_response.json
+2025-09-15 11:26:25 - __main__ - INFO - Claim completed successfully
+2025-09-15 11:26:25 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:26:25 - utils.telegram - ERROR - Telegram token or chat_id not configured
+2025-09-15 11:30:46 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:30:46 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:30:46 - utils.claimer - INFO - Extracted URL from cookie: https://httpbin.org/post
+2025-09-15 11:30:46 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:30:46 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:30:46 - root - INFO - HTTP Method: POST
+2025-09-15 11:30:46 - root - INFO - Running claim immediately...
+2025-09-15 11:30:46 - __main__ - INFO - Starting claim job for: https://httpbin.org/post
+2025-09-15 11:30:48 - utils.telegram - INFO - Telegram message sent successfully
+2025-09-15 11:30:48 - utils.claimer - INFO - Starting claim attempt for URL: https://httpbin.org/post
+2025-09-15 11:30:48 - utils.claimer - INFO - Method: POST, Max retries: 3, Timeout: 30s
+2025-09-15 11:30:48 - utils.claimer - INFO - Attempt 1/3
+2025-09-15 11:30:51 - utils.claimer - INFO - Response status: 200
+2025-09-15 11:30:51 - utils.claimer - INFO - Claim successful on attempt 1
+2025-09-15 11:30:51 - utils.claimer - INFO - Raw response saved to: responses\2025-09-15T11-30-51-137119_success_response.json
+2025-09-15 11:30:51 - __main__ - INFO - Claim completed successfully
+2025-09-15 11:30:52 - utils.telegram - INFO - Telegram message sent successfully
+2025-09-15 11:30:54 - utils.telegram - INFO - Document sent successfully: responses\2025-09-15T11-30-51-137119_success_response.json
+2025-09-15 11:32:16 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:32:16 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:32:16 - utils.claimer - INFO - Extracted URL from cookie: https://httpbin.org/post
+2025-09-15 11:32:16 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:32:16 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:32:16 - root - INFO - HTTP Method: POST
+2025-09-15 11:32:16 - root - INFO - Running claim immediately...
+2025-09-15 11:32:16 - __main__ - INFO - Starting claim job for: https://httpbin.org/post
+2025-09-15 11:32:18 - utils.telegram - INFO - Telegram message sent successfully
+2025-09-15 11:32:18 - utils.claimer - INFO - Starting claim attempt for URL: https://httpbin.org/post
+2025-09-15 11:32:18 - utils.claimer - INFO - Method: POST, Max retries: 3, Timeout: 30s
+2025-09-15 11:32:18 - utils.claimer - INFO - Attempt 1/3
+2025-09-15 11:32:20 - utils.claimer - INFO - Response status: 200
+2025-09-15 11:32:20 - utils.claimer - INFO - Claim successful on attempt 1
+2025-09-15 11:32:20 - utils.claimer - INFO - Raw response saved to: responses\2025-09-15T11-32-20-349732_success_response.json
+2025-09-15 11:32:20 - __main__ - INFO - Claim completed successfully
+2025-09-15 11:32:21 - utils.telegram - INFO - Telegram message sent successfully
+2025-09-15 11:32:23 - utils.telegram - INFO - Document sent successfully: responses\2025-09-15T11-32-20-349732_success_response.json

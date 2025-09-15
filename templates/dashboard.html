@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asyafira Airdrop Bot - Dashboard</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Socket.IO -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    
+    <style>
+        :root {
+            --primary-color: #6f42c1;
+            --secondary-color: #6c757d;
+            --success-color: #198754;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --info-color: #0dcaf0;
+            --dark-color: #212529;
+            --light-color: #f8f9fa;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+            border-bottom: 2px solid var(--primary-color);
+            border-radius: 15px 15px 0 0 !important;
+            font-weight: 600;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .status-online {
+            background-color: var(--success-color);
+            animation: pulse 2s infinite;
+        }
+        
+        .status-offline {
+            background-color: var(--danger-color);
+        }
+        
+        .status-warning {
+            background-color: var(--warning-color);
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            border: none;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-gradient:hover {
+            background: linear-gradient(135deg, #8b5cf6, var(--primary-color));
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .table th {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+        
+        .table td {
+            border-color: #e9ecef;
+            vertical-align: middle;
+        }
+        
+        .badge-success {
+            background-color: var(--success-color);
+        }
+        
+        .badge-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .progress {
+            height: 8px;
+            border-radius: 10px;
+        }
+        
+        .progress-bar {
+            border-radius: 10px;
+        }
+        
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary-color), #8b5cf6);
+            color: white;
+            border-radius: 15px 15px 0 0;
+        }
+        
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
+        }
+        
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
+        
+        .spinner-border-sm {
+            width: 1rem;
+            height: 1rem;
+        }
+        
+        .log-container {
+            background-color: #1e1e1e;
+            color: #f8f8f2;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+            border-radius: 10px;
+            padding: 1rem;
+        }
+        
+        .log-entry {
+            margin-bottom: 0.5rem;
+            padding: 0.25rem;
+            border-radius: 3px;
+        }
+        
+        .log-info {
+            color: #50fa7b;
+        }
+        
+        .log-warning {
+            color: #f1fa8c;
+        }
+        
+        .log-error {
+            color: #ff5555;
+        }
+        
+        .sidebar {
+            background: linear-gradient(180deg, var(--primary-color), #8b5cf6);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            margin: 0.25rem 0;
+        }
+        
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .content-wrapper {
+            padding: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .content-wrapper {
+                padding: 1rem;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-robot me-2"></i>
+                Asyafira Airdrop Bot
+            </a>
+            
+            <div class="navbar-nav ms-auto">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-1"></i>
+                        Admin
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="showSettings()"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 p-0">
+                <div class="sidebar">
+                    <div class="p-3">
+                        <h6 class="text-uppercase fw-bold mb-3">Navigation</h6>
+                        <nav class="nav flex-column">
+                            <a class="nav-link active" href="#dashboard" onclick="showSection('dashboard')">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a>
+                            <a class="nav-link" href="#claims" onclick="showSection('claims')">
+                                <i class="fas fa-coins me-2"></i>Claims
+                            </a>
+                            <a class="nav-link" href="#twitter" onclick="showSection('twitter')">
+                                <i class="fab fa-twitter me-2"></i>Twitter
+                            </a>
+                            <a class="nav-link" href="#schedule" onclick="showSection('schedule')">
+                                <i class="fas fa-calendar-alt me-2"></i>Schedule
+                            </a>
+                            <a class="nav-link" href="#cookies" onclick="showSection('cookies')">
+                                <i class="fas fa-cookie-bite me-2"></i>Cookies
+                            </a>
+                            <a class="nav-link" href="#logs" onclick="showSection('logs')">
+                                <i class="fas fa-file-alt me-2"></i>Logs
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-10">
+                <div class="content-wrapper">
+                    <!-- Dashboard Section -->
+                    <div id="dashboard-section" class="section">
+                        <!-- Status Cards -->
+                        <div class="row mb-4">
+                            <div class="col-md-3 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="stat-number" id="total-claims">0</div>
+                                        <div class="stat-label">Total Claims</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="stat-number" id="success-rate">0%</div>
+                                        <div class="stat-label">Success Rate</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="stat-number" id="twitter-actions">0</div>
+                                        <div class="stat-label">Twitter Actions</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="card stat-card">
+                                    <div class="card-body">
+                                        <div class="stat-number" id="scheduled-tasks">0</div>
+                                        <div class="stat-label">Scheduled Tasks</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Status Overview -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Bot Status</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <span>Bot Status:</span>
+                                            <span id="bot-status">
+                                                <span class="status-indicator status-offline"></span>
+                                                Offline
+                                            </span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <span>Active Claims:</span>
+                                            <span id="active-claims">0</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <span>Current Status:</span>
+                                            <span id="current-status" class="badge bg-secondary">Idle</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span>Last Claim:</span>
+                                            <span id="last-claim-time">Never</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Performance Chart</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas id="performanceChart" width="400" height="200"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Actions -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>Quick Actions</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-3 mb-2">
+                                                <button class="btn btn-gradient w-100" onclick="showClaimModal()">
+                                                    <i class="fas fa-coins me-2"></i>Quick Claim
+                                                </button>
+                                            </div>
+                                            <div class="col-md-3 mb-2">
+                                                <button class="btn btn-gradient w-100" onclick="showTwitterModal()">
+                                                    <i class="fab fa-twitter me-2"></i>Tweet
+                                                </button>
+                                            </div>
+                                            <div class="col-md-3 mb-2">
+                                                <button class="btn btn-gradient w-100" onclick="showScheduleModal()">
+                                                    <i class="fas fa-calendar-plus me-2"></i>Schedule Task
+                                                </button>
+                                            </div>
+                                            <div class="col-md-3 mb-2">
+                                                <button class="btn btn-gradient w-100" onclick="refreshData()">
+                                                    <i class="fas fa-sync-alt me-2"></i>Refresh
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Claims Section -->
+                    <div id="claims-section" class="section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0"><i class="fas fa-coins me-2"></i>Claims Management</h5>
+                                <button class="btn btn-gradient btn-sm" onclick="showClaimModal()">
+                                    <i class="fas fa-plus me-1"></i>New Claim
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="claims-table">
+                                        <thead>
+                                            <tr>
+                                                <th>URL</th>
+                                                <th>Status</th>
+                                                <th>Method</th>
+                                                <th>Time</th>
+                                                <th>Response</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Claims will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Twitter Section -->
+                    <div id="twitter-section" class="section" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0"><i class="fab fa-twitter me-2"></i>Twitter Actions</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Tweet Text</label>
+                                            <textarea class="form-control" id="tweet-text" rows="3" placeholder="What's happening?"></textarea>
+                                        </div>
+                                        <button class="btn btn-gradient" onclick="postTweet()">
+                                            <i class="fab fa-twitter me-2"></i>Post Tweet
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Twitter Statistics</h5>
+                                    </div>
+                                    <div class="card-body" id="twitter-stats">
+                                        <!-- Twitter stats will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Schedule Section -->
+                    <div id="schedule-section" class="section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Scheduled Tasks</h5>
+                                <button class="btn btn-gradient btn-sm" onclick="showScheduleModal()">
+                                    <i class="fas fa-plus me-1"></i>New Task
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="schedule-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Task Name</th>
+                                                <th>URL</th>
+                                                <th>Schedule</th>
+                                                <th>Next Run</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Scheduled tasks will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Cookies Section -->
+                    <div id="cookies-section" class="section" style="display: none;">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0"><i class="fas fa-cookie-bite me-2"></i>Cookie Management</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label">Import Cookies</label>
+                                            <input type="file" class="form-control" id="cookie-file" accept=".json,.txt">
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-gradient" onclick="importCookies()">
+                                                <i class="fas fa-upload me-2"></i>Import Cookies
+                                            </button>
+                                            <button class="btn btn-outline-secondary" onclick="exportCookies()">
+                                                <i class="fas fa-download me-2"></i>Export Cookies
+                                            </button>
+                                            <button class="btn btn-outline-warning" onclick="refreshCookies()">
+                                                <i class="fas fa-sync-alt me-2"></i>Refresh Cookies
+                                            </button>
+                                            <button class="btn btn-outline-danger" onclick="clearCookies()">
+                                                <i class="fas fa-trash me-2"></i>Clear All Cookies
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Cookie Statistics</h5>
+                                    </div>
+                                    <div class="card-body" id="cookie-stats">
+                                        <!-- Cookie stats will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Logs Section -->
+                    <div id="logs-section" class="section" style="display: none;">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>System Logs</h5>
+                                <div>
+                                    <select class="form-select form-select-sm d-inline-block w-auto me-2" id="log-level">
+                                        <option value="all">All Levels</option>
+                                        <option value="info">Info</option>
+                                        <option value="warning">Warning</option>
+                                        <option value="error">Error</option>
+                                    </select>
+                                    <button class="btn btn-gradient btn-sm" onclick="loadLogs()">
+                                        <i class="fas fa-sync-alt me-1"></i>Refresh
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="log-container" id="log-container">
+                                    <!-- Logs will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modals -->
+    
+    <!-- Quick Claim Modal -->
+    <div class="modal fade" id="claimModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-coins me-2"></i>Quick Claim</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">URL</label>
+                        <input type="url" class="form-control" id="claim-url" placeholder="https://example.com/claim">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Method</label>
+                        <select class="form-select" id="claim-method">
+                            <option value="requests">Requests</option>
+                            <option value="selenium">Selenium</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-gradient" onclick="submitClaim()">Start Claim</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Schedule Task Modal -->
+    <div class="modal fade" id="scheduleModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-calendar-plus me-2"></i>Schedule Task</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Task Name</label>
+                        <input type="text" class="form-control" id="task-name" placeholder="My Airdrop Task">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">URL</label>
+                        <input type="url" class="form-control" id="task-url" placeholder="https://example.com/claim">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Schedule Type</label>
+                        <select class="form-select" id="schedule-type" onchange="updateScheduleInput()">
+                            <option value="interval">Interval</option>
+                            <option value="daily">Daily</option>
+                            <option value="cron">Cron Expression</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" id="schedule-value-label">Interval (seconds)</label>
+                        <input type="text" class="form-control" id="schedule-value" placeholder="300">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Method</label>
+                        <select class="form-select" id="task-method">
+                            <option value="requests">Requests</option>
+                            <option value="selenium">Selenium</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-gradient" onclick="submitSchedule()">Schedule Task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Twitter Modal -->
+    <div class="modal fade" id="twitterModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fab fa-twitter me-2"></i>Twitter Actions</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Action</label>
+                        <select class="form-select" id="twitter-action" onchange="updateTwitterForm()">
+                            <option value="tweet">Post Tweet</option>
+                            <option value="follow">Follow User</option>
+                            <option value="like">Like Tweet</option>
+                            <option value="retweet">Retweet</option>
+                        </select>
+                    </div>
+                    <div id="twitter-form">
+                        <!-- Dynamic form content -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-gradient" onclick="submitTwitterAction()">Execute</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
