@@ -107,6 +107,29 @@ CAPTCHA_TIMEOUT=300
    - Buka: `https://api.telegram.org/bot<TOKEN>/getUpdates`
    - Copy `chat.id` dari response
 
+## 🚀 Quick Start
+
+### Method 1: Using EXE (Recommended)
+1. Download `AsyafiraAirdropBot.exe` from releases
+2. Place your cookie in `.env` file (see Configuration section)
+3. **EASY WAY**: Double-click `run_interactive.bat` for user-friendly launcher
+4. **DIRECT WAY**: Run with parameters:
+   ```bash
+   # Run once immediately (recommended)
+   AsyafiraAirdropBot.exe --run-once
+   
+   # Interactive mode (choose options inside)
+   AsyafiraAirdropBot.exe
+   
+   # Schedule daily
+   AsyafiraAirdropBot.exe --daily-time "09:00"
+   ```
+
+### ⚠️ IMPORTANT: EXE Usage
+- **NEVER run EXE without parameters** - it will show interactive menu
+- **Use `--run-once`** for immediate execution
+- **Use `run_interactive.bat`** for easiest experience
+
 ## 🚀 Cara Penggunaan
 
 ### Mode CLI (Command Line)

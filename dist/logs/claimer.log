@@ -5,3 +5,24 @@
 2025-09-15 11:33:57 - root - INFO - Target URL: https://httpbin.org/post
 2025-09-15 11:33:57 - root - INFO - HTTP Method: POST
 2025-09-15 11:33:57 - root - ERROR - No scheduling option provided. Use --run-once, --run-datetime, or --daily-time
+2025-09-15 11:36:42 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:36:42 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:36:42 - utils.claimer - INFO - Extracted URL from cookie: https://httpbin.org/post
+2025-09-15 11:36:42 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:36:42 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:36:42 - root - INFO - HTTP Method: POST
+2025-09-15 11:36:42 - root - ERROR - No scheduling option provided. Use --run-once, --run-datetime, or --daily-time
+2025-09-15 11:38:02 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:38:02 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:38:02 - utils.claimer - INFO - Extracted URL from cookie: https://httpbin.org/post
+2025-09-15 11:38:02 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:38:02 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:38:02 - root - INFO - HTTP Method: POST
+2025-09-15 11:38:02 - root - ERROR - No scheduling option provided. Use --run-once, --run-datetime, or --daily-time
+2025-09-15 11:38:19 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:38:19 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:38:19 - utils.claimer - INFO - Extracted URL from cookie: https://httpbin.org/post
+2025-09-15 11:38:19 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:38:19 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:38:19 - root - INFO - HTTP Method: POST
+2025-09-15 11:38:19 - root - ERROR - No scheduling option provided. Use --run-once, --run-datetime, or --daily-time

@@ -396,8 +396,86 @@ Examples:
     
     # Check if any job was added
     if not job_added:
-        logger.error("No scheduling option provided. Use --run-once, --run-datetime, or --daily-time")
-        sys.exit(1)
+        # If no scheduling option provided, show interactive menu
+        print("\n🤖 Asyafira Airdrop Bot - Interactive Mode")
+        print("="*50)
+        print("No scheduling option provided. Please choose:")
+        print("1. Run once immediately (--run-once)")
+        print("2. Schedule daily at specific time (--daily-time)")
+        print("3. Schedule for specific datetime (--run-datetime)")
+        print("4. Exit")
+        print("="*50)
+        
+        try:
+            choice = input("Enter your choice (1-4): ").strip()
+            
+            if choice == "1":
+                # Run once immediately
+                logger.info("Running claim immediately...")
+                job_claim(task_url, method, payload)
+                return
+            elif choice == "2":
+                time_input = input("Enter daily time (HH:MM format, e.g., 09:00): ").strip()
+                try:
+                    daily_time = parse_time_str(time_input)
+                    
+                    scheduler.add_job(
+                        func=job_claim,
+                        trigger=CronTrigger(
+                            hour=daily_time.hour,
+                            minute=daily_time.minute,
+                            timezone='UTC'
+                        ),
+                        args=[task_url, method, payload],
+                        id="daily_claim",
+                        name=f"Daily claim at {time_input}"
+                    )
+                    
+                    schedule_info = f"Daily at {time_input} UTC"
+                    logger.info(f"Scheduled: {schedule_info}")
+                    job_added = True
+                    
+                except ValueError as e:
+                    logger.error(f"Invalid time format: {e}")
+                    sys.exit(1)
+            elif choice == "3":
+                datetime_input = input("Enter datetime (YYYY-MM-DD HH:MM:SS format): ").strip()
+                try:
+                    run_datetime = datetime.strptime(datetime_input, "%Y-%m-%d %H:%M:%S")
+                    
+                    if run_datetime <= datetime.now():
+                        logger.error(f"Scheduled datetime {run_datetime} is in the past")
+                        sys.exit(1)
+                    
+                    scheduler.add_job(
+                        func=job_claim,
+                        trigger=DateTrigger(run_date=run_datetime),
+                        args=[task_url, method, payload],
+                        id="datetime_claim",
+                        name=f"Claim at {run_datetime}"
+                    )
+                    
+                    schedule_info = f"One-time run at {run_datetime}"
+                    logger.info(f"Scheduled: {schedule_info}")
+                    job_added = True
+                    
+                except ValueError as e:
+                    logger.error(f"Invalid datetime format: {e}")
+                    sys.exit(1)
+            elif choice == "4":
+                logger.info("Exiting...")
+                sys.exit(0)
+            else:
+                logger.error("Invalid choice. Exiting...")
+                sys.exit(1)
+                
+        except KeyboardInterrupt:
+            logger.info("\nOperation cancelled by user")
+            sys.exit(0)
+        except EOFError:
+            logger.error("\nNo input provided. Use command line arguments for non-interactive mode.")
+            logger.error("Example: AsyafiraAirdropBot.exe --run-once")
+            sys.exit(1)
     
     # Start scheduler
     try:
