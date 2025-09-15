@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airdrop Claim Portal</title>
+    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .status.info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border: 1px solid #bbdefb;
+        }
+
+        .status.success {
+            background: #e8f5e8;
+            color: #2e7d32;
+            border: 1px solid #c8e6c9;
+        }
+
+        .status.error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ffcdd2;
+        }
+
+        .status.warning {
+            background: #fff3e0;
+            color: #ef6c00;
+            border: 1px solid #ffcc02;
+        }
+
+        .wallet-info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .wallet-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .wallet-info p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+            word-break: break-all;
+        }
+
+        .amount-display {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .amount-display h2 {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .amount-display p {
+            opacity: 0.9;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .config {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .config h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .config input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 12px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🎁</div>
+        <h1>Airdrop Claim Portal</h1>
+        <p class="subtitle">Connect your wallet to claim your tokens</p>
+        
+        <div id="status" class="status info">
+            Please connect your MetaMask wallet to continue
+        </div>
+
+        <div id="config" class="config">
+            <h3>Configuration</h3>
+            <input type="text" id="serverUrl" placeholder="Proof Server URL" value="http://localhost:3001">
+            <input type="text" id="contractAddress" placeholder="Contract Address" value="">
+        </div>
+
+        <div id="walletInfo" class="wallet-info hidden">
+            <h3>Wallet Information</h3>
+            <p><strong>Address:</strong> <span id="userAddress"></span></p>
+            <p><strong>Network:</strong> <span id="networkName"></span></p>
+            <p><strong>Balance:</strong> <span id="balance"></span> ETH</p>
+        </div>
+
+        <div id="claimInfo" class="amount-display hidden">
+            <h2 id="claimAmount">0</h2>
+            <p>Tokens available to claim</p>
+        </div>
+
+        <button id="connectBtn" onclick="connectWallet()">Connect MetaMask</button>
+        <button id="checkBtn" onclick="checkEligibility()" class="hidden" disabled>Check Eligibility</button>
+        <button id="claimBtn" onclick="claimTokens()" class="hidden" disabled>Claim Tokens</button>
+        
+        <div id="txHash" class="hidden">
+            <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                Transaction: <a id="txLink" href="#" target="_blank" style="color: #667eea;">View on Explorer</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const CONTRACT_ABI = [
+            "function claim(uint256 amount, bytes32[] calldata proof) external",
+            "function claimed(address) external view returns (bool)",
+            "function merkleRoot() external view returns (bytes32)",
+            "event Claimed(address indexed account, uint256 amount)"
+        ];
+
+        let provider, signer, contract, userAddress;
+        let eligibleAmount = 0;
+        let merkleProof = [];
+
+        async function connectWallet() {
+            try {
+                if (typeof window.ethereum === 'undefined') {
+                    updateStatus('MetaMask is not installed. Please install MetaMask to continue.', 'error');
+                    return;
+                }
+
+                updateStatus('Connecting to MetaMask...', 'info');
+                
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                provider = new ethers.providers.Web3Provider(window.ethereum);
+                signer = provider.getSigner();
+                userAddress = await signer.getAddress();
+
+                const network = await provider.getNetwork();
+                const balance = await provider.getBalance(userAddress);
+
+                document.getElementById('userAddress').textContent = userAddress;
+                document.getElementById('networkName').textContent = network.name || `Chain ID: ${network.chainId}`;
+                document.getElementById('balance').textContent = ethers.utils.formatEther(balance);
+
+                document.getElementById('walletInfo').classList.remove('hidden');
+                document.getElementById('connectBtn').classList.add('hidden');
+                document.getElementById('checkBtn').classList.remove('hidden');
+                document.getElementById('checkBtn').disabled = false;
+
+                updateStatus('Wallet connected successfully! Now check your eligibility.', 'success');
+
+                // Listen for account changes
+                window.ethereum.on('accountsChanged', (accounts) => {
+                    if (accounts.length === 0) {
+                        location.reload();
+                    } else {
+                        location.reload();
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error connecting wallet:', error);
+                updateStatus('Failed to connect wallet: ' + error.message, 'error');
+            }
+        }
+
+        async function checkEligibility() {
+            try {
+                const serverUrl = document.getElementById('serverUrl').value;
+                if (!serverUrl) {
+                    updateStatus('Please enter the proof server URL', 'error');
+                    return;
+                }
+
+                updateStatus('Checking eligibility...', 'info');
+                document.getElementById('checkBtn').innerHTML = '<span class="loading"></span>Checking...';
+                document.getElementById('checkBtn').disabled = true;
+
+                // Check eligibility from server
+                const response = await fetch(`${serverUrl}/verify/${userAddress}/0`);
+                if (!response.ok) {
+                    throw new Error('Failed to check eligibility');
+                }
+
+                const data = await response.json();
+                
+                if (!data.eligible) {
+                    updateStatus('Sorry, your address is not eligible for this airdrop.', 'warning');
+                    document.getElementById('checkBtn').innerHTML = 'Check Eligibility';
+                    document.getElementById('checkBtn').disabled = false;
+                    return;
+                }
+
+                // Get the actual amount and proof
+                const proofResponse = await fetch(`${serverUrl}/proof/${userAddress}/${data.amount}`);
+                if (!proofResponse.ok) {
+                    throw new Error('Failed to get proof');
+                }
+
+                const proofData = await proofResponse.json();
+                eligibleAmount = proofData.amount;
+                merkleProof = proofData.proof;
+
+                document.getElementById('claimAmount').textContent = eligibleAmount;
+                document.getElementById('claimInfo').classList.remove('hidden');
+                document.getElementById('claimBtn').classList.remove('hidden');
+                document.getElementById('claimBtn').disabled = false;
+
+                updateStatus(`Great! You're eligible to claim ${eligibleAmount} tokens.`, 'success');
+                document.getElementById('checkBtn').innerHTML = 'Check Eligibility';
+                document.getElementById('checkBtn').disabled = false;
+
+            } catch (error) {
+                console.error('Error checking eligibility:', error);
+                updateStatus('Error checking eligibility: ' + error.message, 'error');
+                document.getElementById('checkBtn').innerHTML = 'Check Eligibility';
+                document.getElementById('checkBtn').disabled = false;
+            }
+        }
+
+        async function claimTokens() {
+            try {
+                const contractAddress = document.getElementById('contractAddress').value;
+                if (!contractAddress) {
+                    updateStatus('Please enter the contract address', 'error');
+                    return;
+                }
+
+                if (!eligibleAmount || merkleProof.length === 0) {
+                    updateStatus('Please check eligibility first', 'error');
+                    return;
+                }
+
+                updateStatus('Preparing transaction...', 'info');
+                document.getElementById('claimBtn').innerHTML = '<span class="loading"></span>Claiming...';
+                document.getElementById('claimBtn').disabled = true;
+
+                contract = new ethers.Contract(contractAddress, CONTRACT_ABI, signer);
+
+                // Check if already claimed
+                const alreadyClaimed = await contract.claimed(userAddress);
+                if (alreadyClaimed) {
+                    updateStatus('You have already claimed your tokens!', 'warning');
+                    document.getElementById('claimBtn').innerHTML = 'Already Claimed';
+                    return;
+                }
+
+                updateStatus('Please confirm the transaction in MetaMask...', 'info');
+                
+                const tx = await contract.claim(eligibleAmount, merkleProof);
+                
+                updateStatus('Transaction submitted! Waiting for confirmation...', 'info');
+                document.getElementById('claimBtn').innerHTML = '<span class="loading"></span>Confirming...';
+                
+                const receipt = await tx.wait();
+                
+                updateStatus('Tokens claimed successfully! 🎉', 'success');
+                document.getElementById('claimBtn').innerHTML = 'Claimed Successfully!';
+                
+                // Show transaction link
+                const explorerUrl = getExplorerUrl(receipt.transactionHash);
+                document.getElementById('txLink').href = explorerUrl;
+                document.getElementById('txHash').classList.remove('hidden');
+
+            } catch (error) {
+                console.error('Error claiming tokens:', error);
+                let errorMessage = 'Failed to claim tokens: ';
+                
+                if (error.code === 4001) {
+                    errorMessage += 'Transaction rejected by user';
+                } else if (error.message.includes('Already claimed')) {
+                    errorMessage += 'Tokens already claimed';
+                } else if (error.message.includes('Invalid proof')) {
+                    errorMessage += 'Invalid proof - please check eligibility again';
+                } else {
+                    errorMessage += error.message;
+                }
+                
+                updateStatus(errorMessage, 'error');
+                document.getElementById('claimBtn').innerHTML = 'Claim Tokens';
+                document.getElementById('claimBtn').disabled = false;
+            }
+        }
+
+        function updateStatus(message, type) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+        }
+
+        function getExplorerUrl(txHash) {
+            // Default to Etherscan, can be updated based on network
+            return `https://etherscan.io/tx/${txHash}`;
+        }
+
+        // Check if MetaMask is already connected
+        window.addEventListener('load', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+                    if (accounts.length > 0) {
+                        connectWallet();
+                    }
+                } catch (error) {
+                    console.error('Error checking existing connection:', error);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

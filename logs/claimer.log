@@ -250,3 +250,21 @@
 2025-09-15 11:46:01 - __main__ - INFO - Claim completed successfully
 2025-09-15 11:46:02 - utils.telegram - INFO - Telegram message sent successfully
 2025-09-15 11:46:04 - utils.telegram - INFO - Document sent successfully: responses\2025-09-15T11-46-01-555938_success_response.json
+2025-09-15 11:49:08 - root - INFO - Asyafira Airdrop Bot starting...
+2025-09-15 11:49:08 - root - INFO - No task URL provided, attempting to extract from cookie...
+2025-09-15 11:49:08 - utils.claimer - INFO - Extracted URL from cookie: https://httpbin.org/post
+2025-09-15 11:49:08 - root - INFO - Successfully extracted task URL from cookie
+2025-09-15 11:49:08 - root - INFO - Target URL: https://httpbin.org/post
+2025-09-15 11:49:08 - root - INFO - HTTP Method: POST
+2025-09-15 11:49:08 - root - INFO - Running claim immediately...
+2025-09-15 11:49:08 - __main__ - INFO - Starting claim job for: https://httpbin.org/post
+2025-09-15 11:49:10 - utils.telegram - INFO - Telegram message sent successfully
+2025-09-15 11:49:10 - utils.claimer - INFO - Starting claim attempt for URL: https://httpbin.org/post
+2025-09-15 11:49:10 - utils.claimer - INFO - Method: POST, Max retries: 3, Timeout: 30s
+2025-09-15 11:49:10 - utils.claimer - INFO - Attempt 1/3
+2025-09-15 11:49:12 - utils.claimer - INFO - Response status: 200
+2025-09-15 11:49:12 - utils.claimer - INFO - Claim successful on attempt 1
+2025-09-15 11:49:12 - utils.claimer - INFO - Raw response saved to: responses\2025-09-15T11-49-12-014953_success_response.json
+2025-09-15 11:49:12 - __main__ - INFO - Claim completed successfully
+2025-09-15 11:49:13 - utils.telegram - INFO - Telegram message sent successfully
+2025-09-15 11:49:14 - utils.telegram - INFO - Document sent successfully: responses\2025-09-15T11-49-12-014953_success_response.json

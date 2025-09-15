@@ -1,0 +1,51 @@
+{
+  "name": "airdrop-project",
+  "version": "1.0.0",
+  "description": "Complete blockchain airdrop system with Merkle proof verification",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm run install-contract && npm run install-server && npm run install-relayer",
+    "install-contract": "cd contract && npm install",
+    "install-server": "cd server && npm install",
+    "install-relayer": "cd relayer && npm install",
+    "compile": "cd contract && npm run compile",
+    "test": "cd contract && npm test",
+    "deploy:local": "cd contract && npm run deploy:local",
+    "deploy:sepolia": "cd contract && npm run deploy:sepolia",
+    "start:node": "cd contract && npm run node",
+    "start:server": "cd server && npm start",
+    "start:relayer": "cd relayer && npm start",
+    "dev:server": "cd server && npm run dev",
+    "dev:relayer": "cd relayer && npm run dev",
+    "clean": "cd contract && npm run clean",
+    "setup": "npm run install-all && npm run compile",
+    "start:all": "concurrently \"npm run start:server\" \"npm run start:relayer\"",
+    "dev:all": "concurrently \"npm run dev:server\" \"npm run dev:relayer\""
+  },
+  "keywords": [
+    "airdrop",
+    "blockchain",
+    "ethereum",
+    "merkle",
+    "smart-contract",
+    "web3",
+    "defi"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/airdrop-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/airdrop-project/issues"
+  },
+  "homepage": "https://github.com/yourusername/airdrop-project#readme"
+}
