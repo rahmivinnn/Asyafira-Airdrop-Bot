@@ -1,330 +1,458 @@
-# Asyafira Airdrop Bot 🚀
+# Asyafira Airdrop Bot
 
-Bot auto-claim airdrop yang canggih dengan fitur scheduling, notifikasi Telegram, dan dapat di-build menjadi executable Windows (.exe).
+Enterprise-grade automated airdrop claiming system with advanced scheduling, real-time notifications, and production-ready Windows executable distribution.
 
-## ✨ Fitur Utama
+## Core Features
 
-- 🍪 **Login via Cookie** - Menggunakan cookie dari Chrome Cookie Editor
-- ⏰ **Scheduling Fleksibel** - Run sekali, datetime tertentu, atau harian
-- 📱 **Notifikasi Telegram** - Update real-time ke Telegram
-- 🔄 **Retry Logic** - Exponential backoff dengan retry otomatis
-- 🤖 **Captcha Handling** - Support manual input dan API solver
-- 📝 **Logging Lengkap** - Rotating logs dan raw response storage
-- 🎯 **HTTP Flexible** - Support GET/POST dengan custom payload
-- 💻 **Windows EXE** - Build menjadi executable standalone
+**Authentication & Session Management**
+- Cookie-based authentication with Chrome integration
+- Session persistence and automatic renewal
+- Multi-account support through configuration profiles
 
-## 📁 Struktur Proyek
+**Execution Engine**
+- Asynchronous HTTP client with connection pooling
+- Exponential backoff retry mechanism
+- Configurable timeout and rate limiting
+- Support for GET/POST with custom payloads
+
+**Scheduling & Automation**
+- Cron-like scheduling for recurring tasks
+- One-time execution with precise datetime targeting
+- Interactive mode with timeout-based auto-execution
+
+**Monitoring & Observability**
+- Structured logging with rotation and compression
+- Raw response archival for debugging
+- Real-time Telegram notifications
+- Health check endpoints
+
+**Production Deployment**
+- Standalone Windows executable
+- Environment-based configuration
+- Graceful error handling and recovery
+
+## Architecture
 
 ```
-Asyafira Airdrop Bot/
-├── main.py                 # Entry point utama
+asyafira-airdrop-bot/
+├── main.py                 # Application entry point
 ├── utils/
-│   ├── claimer.py          # Fungsi claim dengan retry logic
-│   ├── telegram.py         # Notifikasi Telegram
-│   └── captcha.py          # Handling captcha
-├── logs/                   # Folder log (auto-created)
-├── responses/              # Raw response files (auto-created)
-├── .env.example            # Template konfigurasi
-├── requirements.txt        # Dependencies
-└── README.md              # Dokumentasi ini
+│   ├── claimer.py          # Core claiming logic with retry
+│   ├── telegram.py         # Notification service
+│   ├── captcha.py          # CAPTCHA solving integration
+│   └── cookie_manager.py   # Session management
+├── config/
+│   ├── database.py         # Configuration persistence
+│   ├── accounts/           # Multi-account profiles
+│   └── certificates/       # SSL certificates
+├── logs/                   # Application logs
+├── responses/              # Response archives
+├── static/                 # Web interface assets
+├── templates/              # HTML templates
+└── dist/                   # Production builds
 ```
 
-## 🛠️ Setup & Instalasi
+## Installation
 
-### 1. Clone/Download Project
+### Development Setup
 
 ```bash
-# Download atau clone project ini
+git clone <repository-url>
 cd "Asyafira Airdrop Bot"
-```
-
-### 2. Install Dependencies
-
-```bash
-# Install semua dependencies
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 3. Konfigurasi Environment
+### Production Deployment
+
+1. Download the latest release executable
+2. Configure environment variables
+3. Deploy with process manager (PM2, systemd, etc.)
+
+## Configuration
+
+### Environment Variables
+
+Create `.env` from `.env.example`:
 
 ```bash
-# Copy template konfigurasi
-copy .env.example .env
-
-# Edit .env dengan text editor favorit
-notepad .env
-```
-
-#### Konfigurasi Wajib:
-
-```env
-# Cookie dari Chrome (wajib)
-COOKIE=your_cookie_string_here
-
-# URL target claim
-TASK_URL=https://example.com/api/claim
-```
-
-#### Konfigurasi Opsional:
-
-```env
-# Telegram Notifications
-TELEGRAM_TOKEN=your_bot_token
-CHAT_ID=your_chat_id
+# Core Configuration
+COOKIE=session_cookie_string
+TASK_URL=https://api.example.com/claim
+HTTP_METHOD=POST
+JSON_PAYLOAD={"action":"claim","timestamp":"auto"}
 
 # Scheduling
-RUN_DATETIME=2025-09-14 13:30:00
+RUN_DATETIME=2025-09-14T13:30:00Z
 DAILY_CLAIM_TIME=09:00
+TIMEZONE=UTC
 
-# HTTP Settings
-HTTP_METHOD=POST
-JSON_PAYLOAD={"action":"claim"}
+# Network Configuration
 REQUEST_TIMEOUT=30
-
-# Retry Settings
 MAX_RETRIES=3
 RETRY_DELAY=5
+USER_AGENT=Mozilla/5.0 (Windows NT 10.0; Win64; x64)
 
-# Captcha (opsional)
-TWOCAPTCHA_API_KEY=your_2captcha_key
+# Telegram Integration
+TELEGRAM_TOKEN=bot_token
+CHAT_ID=chat_id
+NOTIFICATION_LEVEL=INFO
+
+# Security
+TWOCAPTCHA_API_KEY=api_key
 CAPTCHA_TIMEOUT=300
+SSL_VERIFY=true
+
+# Logging
+LOG_LEVEL=INFO
+MAX_LOG_SIZE=5242880  # 5MB
+LOG_BACKUP_COUNT=10
+LOG_FORMAT=json
 ```
 
-### 4. Cara Mendapatkan Cookie
+### Cookie Extraction
 
-1. Install **Cookie Editor** extension di Chrome
-2. Login ke website target airdrop
-3. Buka Cookie Editor → Export → Copy sebagai string
-4. Paste ke file `.env` di bagian `COOKIE=`
+1. Install Chrome Cookie Editor extension
+2. Navigate to target application
+3. Complete authentication flow
+4. Export cookies as string format
+5. Configure `COOKIE` environment variable
 
-### 5. Setup Telegram Bot (Opsional)
-
-1. Chat dengan [@BotFather](https://t.me/botfather) di Telegram
-2. Buat bot baru dengan `/newbot`
-3. Copy token yang diberikan ke `TELEGRAM_TOKEN`
-4. Untuk mendapatkan `CHAT_ID`:
-   - Chat dengan bot Anda
-   - Buka: `https://api.telegram.org/bot<TOKEN>/getUpdates`
-   - Copy `chat.id` dari response
-
-## 🚀 Quick Start
-
-### Method 1: Using EXE (Recommended)
-1. Download `AsyafiraAirdropBot.exe` from releases
-2. Place your cookie in `.env` file (see Configuration section)
-3. **EASY WAY**: Double-click `run_interactive.bat` for user-friendly launcher
-4. **DIRECT WAY**: Run with parameters:
-   ```bash
-   # Run once immediately (recommended)
-   AsyafiraAirdropBot.exe --run-once
-   
-   # Interactive mode (choose options inside)
-   AsyafiraAirdropBot.exe
-   
-   # Schedule daily
-   AsyafiraAirdropBot.exe --daily-time "09:00"
-   ```
-
-### ⚠️ IMPORTANT: EXE Usage
-- **NEVER run EXE without parameters** - it will show interactive menu
-- **Use `--run-once`** for immediate execution
-- **Use `run_interactive.bat`** for easiest experience
-
-## 🚀 Cara Penggunaan
-
-### Mode CLI (Command Line)
+### Telegram Bot Setup
 
 ```bash
-# Run sekali langsung
-python main.py --task-url "https://example.com/claim" --run-once
+# Create bot via BotFather
+curl -X POST "https://api.telegram.org/bot<TOKEN>/setWebhook" \
+  -H "Content-Type: application/json" \
+  -d '{"url":"https://your-domain.com/webhook"}'
 
-# Schedule untuk datetime tertentu
-python main.py --task-url "https://example.com/claim" --run-datetime "2025-09-14 13:30:00"
-
-# Schedule harian pada jam tertentu
-python main.py --task-url "https://example.com/claim" --daily-time "09:00"
-
-# Dengan custom payload
-python main.py --task-url "https://example.com/claim" --run-once --payload '{"action":"claim"}'
-
-# Menggunakan method GET
-python main.py --task-url "https://example.com/claim" --run-once --method GET
+# Get chat ID
+curl "https://api.telegram.org/bot<TOKEN>/getUpdates"
 ```
 
-### Mode Environment (.env)
+## Usage
+
+### Command Line Interface
 
 ```bash
-# Set konfigurasi di .env, lalu jalankan
-python main.py
-```
+# Immediate execution
+python main.py --task-url "https://api.example.com/claim" --run-once
 
-### Utility Commands
+# Scheduled execution
+python main.py --run-datetime "2025-09-14T13:30:00Z"
 
-```bash
-# Test konfigurasi
+# Daily recurring
+python main.py --daily-time "09:00" --timezone "UTC"
+
+# Custom payload
+python main.py --payload '{"action":"claim","user_id":123}' --method POST
+
+# Configuration validation
 python main.py --validate-config
 
-# Test notifikasi Telegram
-python main.py --test-telegram
-
-# Lihat help
-python main.py --help
+# Health check
+python main.py --health-check
 ```
 
-## 🔧 Build ke Windows EXE
-
-### 1. Install PyInstaller
+### Production Executable
 
 ```bash
-pip install pyinstaller
+# Interactive mode with auto-timeout
+./AsyafiraAirdropBot.exe
+
+# Direct execution
+./AsyafiraAirdropBot.exe --run-once
+
+# Scheduled execution
+./AsyafiraAirdropBot.exe --daily-time "09:00"
+
+# Background service
+./AsyafiraAirdropBot.exe --daemon --log-file /var/log/airdrop.log
 ```
 
-### 2. Build EXE
+### Batch Operations
 
 ```bash
-# Build dengan semua dependencies
-pyinstaller --onefile --console --name "AsyafiraAirdropBot" main.py
+# Batch launcher (Windows)
+run_interactive.bat
 
-# Atau dengan icon (jika ada)
-pyinstaller --onefile --console --icon=icon.ico --name "AsyafiraAirdropBot" main.py
+# Service management
+run_bot.bat
 ```
 
-### 3. Build Advanced (Recommended)
+## Build Process
+
+### Development Build
 
 ```bash
-# Build dengan optimasi dan hidden imports
-pyinstaller --onefile --console \
-  --name "AsyafiraAirdropBot" \
-  --hidden-import="utils.claimer" \
-  --hidden-import="utils.telegram" \
-  --hidden-import="utils.captcha" \
-  --add-data ".env.example;." \
-  main.py
+pyinstaller --onefile --console main.py
 ```
 
-### 4. Distribusi
-
-Setelah build berhasil:
-
-1. File EXE akan ada di folder `dist/`
-2. Copy file `.env.example` ke folder yang sama dengan EXE
-3. Rename `.env.example` menjadi `.env`
-4. Edit `.env` dengan konfigurasi yang benar
-5. Jalankan EXE
-
-```
-folder_distribusi/
-├── AsyafiraAirdropBot.exe
-├── .env
-└── logs/                    # akan dibuat otomatis
-```
-
-## 📋 Format Datetime
-
-Bot mendukung berbagai format datetime:
-
-```
-2025-09-14 13:30:00
-2025-09-14 13:30
-2025/09/14 13:30:00
-2025/09/14 13:30
-14-09-2025 13:30:00
-14-09-2025 13:30
-14/09/2025 13:30:00
-14/09/2025 13:30
-```
-
-## 📊 Logging & Monitoring
-
-### Log Files
-
-- **logs/claimer.log** - Log utama dengan rotating (5MB per file, keep 10 files)
-- **responses/timestamp.json** - Raw response dari server
-- **responses/timestamp.txt** - Raw response text format
-
-### Log Levels
-
-Set di `.env`:
-
-```env
-LOG_LEVEL=INFO          # DEBUG, INFO, WARNING, ERROR
-MAX_LOG_SIZE=5          # MB per file
-LOG_BACKUP_COUNT=10     # Jumlah backup files
-```
-
-## 🔍 Troubleshooting
-
-### Error: "Missing required environment variables"
-
-- Pastikan file `.env` ada di folder yang sama dengan script/EXE
-- Pastikan `COOKIE` sudah diisi dengan benar
-
-### Error: "Invalid datetime format"
-
-- Gunakan format yang didukung (lihat section Format Datetime)
-- Pastikan datetime di masa depan, bukan masa lalu
-
-### Error: "Telegram test failed"
-
-- Periksa `TELEGRAM_TOKEN` dan `CHAT_ID`
-- Pastikan bot sudah di-start dengan mengirim `/start`
-- Test manual: `https://api.telegram.org/bot<TOKEN>/getMe`
-
-### Error: "Request failed"
-
-- Periksa cookie masih valid (login ulang jika perlu)
-- Periksa URL target masih benar
-- Cek log detail di `logs/claimer.log`
-
-### Build EXE Error
-
-- Pastikan semua dependencies terinstall
-- Gunakan virtual environment yang bersih
-- Tambahkan `--hidden-import` untuk module yang missing
-
-## 🛡️ Security Notes
-
-- **Jangan commit file `.env`** ke repository
-- **Cookie bersifat sensitif** - jangan share ke orang lain
-- **Telegram token** harus dijaga kerahasiaannya
-- **Gunakan HTTPS** untuk semua request
-
-## 🔄 Update & Maintenance
-
-### Update Dependencies
+### Production Build
 
 ```bash
-pip install --upgrade -r requirements.txt
+pyinstaller AsyafiraAirdropBot.spec
 ```
 
-### Clean Logs
+### Spec Configuration
+
+```python
+# AsyafiraAirdropBot.spec
+a = Analysis(
+    ['main.py'],
+    pathex=[],
+    binaries=[],
+    datas=[('.env.example', '.'), ('static', 'static')],
+    hiddenimports=[
+        'utils.claimer',
+        'utils.telegram',
+        'utils.captcha',
+        'utils.cookie_manager'
+    ],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[],
+    win_no_prefer_redirects=False,
+    win_private_assemblies=False,
+    cipher=None,
+    noarchive=False,
+)
+
+pyz = PYZ(a.pure, a.zipped_data, cipher=None)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    [],
+    name='AsyafiraAirdropBot',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    runtime_tmpdir=None,
+    console=True,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+)
+```
+
+## Monitoring
+
+### Log Analysis
 
 ```bash
-# Hapus log lama (opsional)
-rmdir /s logs
-rmdir /s responses
+# Real-time monitoring
+tail -f logs/claimer.log
+
+# Error analysis
+grep "ERROR" logs/claimer.log | jq .
+
+# Performance metrics
+awk '/Response time/ {sum+=$3; count++} END {print "Avg:", sum/count}' logs/claimer.log
 ```
 
-### Backup Configuration
+### Health Checks
 
 ```bash
-# Backup konfigurasi penting
-copy .env .env.backup
+# Application health
+curl http://localhost:8080/health
+
+# Telegram connectivity
+curl "https://api.telegram.org/bot<TOKEN>/getMe"
+
+# Target endpoint validation
+curl -I "https://api.example.com/claim"
 ```
 
-## 📞 Support
+## Error Handling
 
-Jika mengalami masalah:
+### Common Issues
 
-1. Periksa log di `logs/claimer.log`
-2. Jalankan `python main.py --validate-config`
-3. Test dengan `python main.py --test-telegram`
-4. Periksa format datetime dan URL
+**Authentication Failures**
+```
+ERROR: Invalid session cookie
+SOLUTION: Re-extract cookie after fresh login
+```
 
-## 📄 License
+**Network Timeouts**
+```
+ERROR: Request timeout after 30s
+SOLUTION: Increase REQUEST_TIMEOUT or check network connectivity
+```
 
-MIT License - Bebas digunakan untuk keperluan pribadi dan komersial.
+**Rate Limiting**
+```
+ERROR: HTTP 429 Too Many Requests
+SOLUTION: Implement exponential backoff or reduce request frequency
+```
+
+**CAPTCHA Challenges**
+```
+ERROR: CAPTCHA required
+SOLUTION: Configure 2CAPTCHA_API_KEY or implement manual solving
+```
+
+### Debug Mode
+
+```bash
+# Enable verbose logging
+export LOG_LEVEL=DEBUG
+python main.py --debug
+
+# Network debugging
+export PYTHONHTTPSVERIFY=0
+export REQUESTS_CA_BUNDLE=""
+```
+
+## Security Considerations
+
+### Credential Management
+- Store sensitive data in environment variables
+- Use encrypted configuration files for production
+- Implement credential rotation policies
+- Monitor for credential leakage in logs
+
+### Network Security
+- Enforce HTTPS for all external communications
+- Validate SSL certificates
+- Implement request signing for API calls
+- Use proxy servers for IP rotation
+
+### Operational Security
+- Run with minimal privileges
+- Implement process isolation
+- Monitor for suspicious activity
+- Regular security updates
+
+## Performance Optimization
+
+### Connection Pooling
+```python
+# Configure in utils/claimer.py
+session = requests.Session()
+adapter = HTTPAdapter(
+    pool_connections=10,
+    pool_maxsize=20,
+    max_retries=3
+)
+session.mount('https://', adapter)
+```
+
+### Memory Management
+```python
+# Implement response streaming for large payloads
+with session.get(url, stream=True) as response:
+    for chunk in response.iter_content(chunk_size=8192):
+        process_chunk(chunk)
+```
+
+### Async Operations
+```python
+# Concurrent execution for multiple accounts
+import asyncio
+import aiohttp
+
+async def claim_async(session, account):
+    async with session.post(url, json=payload) as response:
+        return await response.json()
+```
+
+## Deployment
+
+### Docker Container
+
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+CMD ["python", "main.py"]
+```
+
+### Kubernetes Deployment
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: asyafira-airdrop-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: asyafira-airdrop-bot
+  template:
+    metadata:
+      labels:
+        app: asyafira-airdrop-bot
+    spec:
+      containers:
+      - name: bot
+        image: asyafira-airdrop-bot:latest
+        env:
+        - name: COOKIE
+          valueFrom:
+            secretKeyRef:
+              name: bot-secrets
+              key: cookie
+```
+
+### Process Management
+
+```bash
+# PM2 configuration
+pm2 start ecosystem.config.js
+
+# Systemd service
+sudo systemctl enable asyafira-airdrop-bot
+sudo systemctl start asyafira-airdrop-bot
+```
+
+## Contributing
+
+### Development Workflow
+
+1. Fork repository
+2. Create feature branch
+3. Implement changes with tests
+4. Submit pull request
+5. Code review and merge
+
+### Code Standards
+
+- Follow PEP 8 style guidelines
+- Implement comprehensive error handling
+- Add type hints for all functions
+- Write unit tests for core functionality
+- Document API changes
+
+### Testing
+
+```bash
+# Unit tests
+python -m pytest tests/
+
+# Integration tests
+python -m pytest tests/integration/
+
+# Performance tests
+python -m pytest tests/performance/ --benchmark
+```
+
+## License
+
+MIT License - See LICENSE file for details.
 
 ---
 
-**Happy Claiming! 🎉**
+**Production-ready airdrop automation for Web3 ecosystems.**
