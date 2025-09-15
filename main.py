@@ -407,7 +407,45 @@ Examples:
         print("="*50)
         
         try:
-            choice = input("Enter your choice (1-4): ").strip()
+            import signal
+            
+            def timeout_handler(signum, frame):
+                raise TimeoutError("Input timeout")
+            
+            # Set timeout for Windows compatibility
+            try:
+                import msvcrt
+                import time
+                
+                print("Enter your choice (1-4) [Auto-selecting option 1 in 10 seconds]: ", end='', flush=True)
+                
+                start_time = time.time()
+                choice = ""
+                
+                while time.time() - start_time < 10:
+                    if msvcrt.kbhit():
+                        char = msvcrt.getch().decode('utf-8')
+                        if char == '\r':  # Enter key
+                            break
+                        elif char.isdigit() and char in '1234':
+                            choice = char
+                            print(char)
+                            break
+                        elif char == '\b':  # Backspace
+                            if choice:
+                                choice = choice[:-1]
+                                print('\b \b', end='', flush=True)
+                    time.sleep(0.1)
+                
+                if not choice:
+                    choice = "1"
+                    print("\nAuto-selected option 1 (Run once immediately)")
+                else:
+                    choice = choice.strip()
+                    
+            except ImportError:
+                # Fallback for non-Windows systems
+                choice = input("Enter your choice (1-4): ").strip()
             
             if choice == "1":
                 # Run once immediately
@@ -415,7 +453,34 @@ Examples:
                 job_claim(task_url, method, payload)
                 return
             elif choice == "2":
-                time_input = input("Enter daily time (HH:MM format, e.g., 09:00): ").strip()
+                try:
+                    print("Enter daily time (HH:MM format, e.g., 09:00) [Default: 09:00 in 10 seconds]: ", end='', flush=True)
+                    
+                    start_time = time.time()
+                    time_input = ""
+                    
+                    while time.time() - start_time < 10:
+                        if msvcrt.kbhit():
+                            char = msvcrt.getch().decode('utf-8')
+                            if char == '\r':  # Enter key
+                                break
+                            elif char.isdigit() or char == ':':
+                                time_input += char
+                                print(char, end='', flush=True)
+                            elif char == '\b':  # Backspace
+                                if time_input:
+                                    time_input = time_input[:-1]
+                                    print('\b \b', end='', flush=True)
+                        time.sleep(0.1)
+                    
+                    if not time_input:
+                        time_input = "09:00"
+                        print("\nAuto-selected default time: 09:00")
+                    else:
+                        time_input = time_input.strip()
+                        
+                except ImportError:
+                    time_input = input("Enter daily time (HH:MM format, e.g., 09:00): ").strip()
                 try:
                     daily_time = parse_time_str(time_input)
                     
@@ -439,7 +504,36 @@ Examples:
                     logger.error(f"Invalid time format: {e}")
                     sys.exit(1)
             elif choice == "3":
-                datetime_input = input("Enter datetime (YYYY-MM-DD HH:MM:SS format): ").strip()
+                try:
+                    print("Enter datetime (YYYY-MM-DD HH:MM:SS format) [Skip in 10 seconds]: ", end='', flush=True)
+                    
+                    start_time = time.time()
+                    datetime_input = ""
+                    
+                    while time.time() - start_time < 10:
+                        if msvcrt.kbhit():
+                            char = msvcrt.getch().decode('utf-8')
+                            if char == '\r':  # Enter key
+                                break
+                            elif char.isdigit() or char in '- :':
+                                datetime_input += char
+                                print(char, end='', flush=True)
+                            elif char == '\b':  # Backspace
+                                if datetime_input:
+                                    datetime_input = datetime_input[:-1]
+                                    print('\b \b', end='', flush=True)
+                        time.sleep(0.1)
+                    
+                    if not datetime_input:
+                        print("\nNo datetime provided, switching to run once immediately...")
+                        logger.info("Running claim immediately...")
+                        job_claim(task_url, method, payload)
+                        return
+                    else:
+                        datetime_input = datetime_input.strip()
+                        
+                except ImportError:
+                    datetime_input = input("Enter datetime (YYYY-MM-DD HH:MM:SS format): ").strip()
                 try:
                     run_datetime = datetime.strptime(datetime_input, "%Y-%m-%d %H:%M:%S")
                     
