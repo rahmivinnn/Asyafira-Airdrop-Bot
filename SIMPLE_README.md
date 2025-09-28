@@ -1,138 +1,243 @@
-# Simple Zealy.io Task Claimer
+# 🤖 Simple Zealy.io Task Claimer Bot
 
-A simplified bot focused on the essential functionality of claiming tasks on zealy.io.
+**Bot sederhana untuk klaim task otomatis di zealy.io**
 
-## Features
+Bot yang disederhanakan dengan fokus pada fungsi utama untuk mengklaim task di zealy.io dengan mudah dan cepat.
 
-- **Simple Setup**: Just configure your cookie and run
-- **Auto URL Detection**: Automatically extracts claim URL from cookie
-- **Basic Retry Logic**: 3 attempts with 5-second delays
-- **Telegram Notifications**: Optional success/failure notifications
-- **Minimal Dependencies**: Only requires `requests` and `python-dotenv`
+## ✨ Fitur Utama
 
-## Quick Start
+- **Setup Mudah**: Hanya perlu konfigurasi cookie dan langsung jalan
+- **Auto URL Detection**: Otomatis mendeteksi URL claim dari cookie
+- **Retry Logic**: 3 kali percobaan dengan delay 5 detik
+- **Notifikasi Telegram**: Optional notifikasi sukses/gagal
+- **Dependencies Minimal**: Hanya butuh `requests` dan `python-dotenv`
 
-### 1. Install Dependencies
+## 🚀 Cara Install & Running (Step by Step)
+
+### Langkah 1: Download/Clone Repository
 
 ```bash
+# Download dari GitHub
+git clone https://github.com/rahmivinnn/Asyafira-Airdrop-Bot.git
+cd Asyafira-Airdrop-Bot
+
+# ATAU download ZIP dari GitHub dan extract
+```
+
+### Langkah 2: Install Python Dependencies
+
+```bash
+# Install requirements
 pip install -r simple_requirements.txt
+
+# Jika error, coba:
+pip install requests python-dotenv
 ```
 
-### 2. Get Your Cookie
+### Langkah 3: Dapatkan Cookie dari zealy.io
 
-1. Go to [zealy.io](https://zealy.io) and log in
-2. Open Developer Tools (F12)
-3. Go to Application/Storage > Cookies
-4. Copy the cookie string (look for session or auth cookies)
+1. **Buka zealy.io** di browser dan **login**
+2. **Tekan F12** untuk buka Developer Tools
+3. **Klik tab "Application"** (Chrome) atau "Storage" (Firefox)
+4. **Klik "Cookies"** di sidebar kiri
+5. **Pilih domain zealy.io**
+6. **Copy semua cookie** (biasanya yang panjang dengan session/auth)
+7. **Simpan cookie** untuk langkah berikutnya
 
-### 3. Configure
-
-Copy the example configuration:
+### Langkah 4: Konfigurasi Bot
 
 ```bash
+# Copy file konfigurasi
 cp simple_.env.example .env
+
+# Edit file .env dengan text editor
+nano .env
+# ATAU
+notepad .env
 ```
 
-Edit `.env` and add your cookie:
-
+**Isi file .env seperti ini:**
 ```env
-COOKIE=your_session_cookie_here
-TELEGRAM_TOKEN=your_bot_token_here  # Optional
-CHAT_ID=your_chat_id_here           # Optional
+# WAJIB: Cookie dari zealy.io
+COOKIE=session_cookie_yang_di_copy_dari_browser
+
+# OPSIONAL: URL spesifik (biasanya auto-detect)
+TASK_URL=https://zealy.io/api/claim
+
+# OPSIONAL: Notifikasi Telegram
+TELEGRAM_TOKEN=bot_token_telegram_anda
+CHAT_ID=chat_id_telegram_anda
 ```
 
-### 4. Run
+### Langkah 5: Test Bot
 
 ```bash
-# Run once immediately
+# Test notifikasi Telegram (jika sudah setup)
+python simple_main.py --test-telegram
+
+# Test claim sekali
+python simple_main.py --run-once
+```
+
+### Langkah 6: Running Bot
+
+```bash
+# Klaim sekali langsung
 python simple_main.py --run-once
 
-# Run with specific URL
+# Klaim dengan URL spesifik
 python simple_main.py --task-url "https://zealy.io/api/claim" --run-once
 
-# Test Telegram notifications
+# Klaim dengan payload custom
+python simple_main.py --payload '{"action":"claim"}' --run-once
+```
+
+## 📋 Konfigurasi Lengkap
+
+### Wajib Diisi
+- `COOKIE`: Cookie session dari zealy.io (WAJIB!)
+
+### Opsional
+- `TASK_URL`: URL spesifik untuk claim (auto-detect jika tidak diisi)
+- `HTTP_METHOD`: GET atau POST (default: POST)
+- `JSON_PAYLOAD`: Data JSON untuk request POST
+- `TELEGRAM_TOKEN`: Token bot Telegram untuk notifikasi
+- `CHAT_ID`: ID chat Telegram untuk notifikasi
+
+## 💡 Contoh Penggunaan
+
+```bash
+# Klaim dasar
+python simple_main.py --run-once
+
+# Klaim dengan payload custom
+python simple_main.py --payload '{"action":"claim","questId":"123"}' --run-once
+
+# Klaim dengan URL spesifik
+python simple_main.py --task-url "https://zealy.io/api/quests/claim" --run-once
+
+# Test notifikasi Telegram
 python simple_main.py --test-telegram
 ```
 
-## Configuration
+## 🔧 Cara Kerja Bot
 
-### Required
+1. **Ekstraksi Cookie**: Otomatis mengambil URL claim dari cookie
+2. **Buat Request**: Membuat header dengan session cookie
+3. **Eksekusi Claim**: Mengirim request POST/GET ke zealy.io
+4. **Retry Logic**: Coba ulang sampai 3 kali jika gagal
+5. **Notifikasi**: Kirim notifikasi Telegram (jika dikonfigurasi)
 
-- `COOKIE`: Your session cookie from zealy.io
+## 🚨 Troubleshooting (Pemecahan Masalah)
 
-### Optional
+### Masalah Umum & Solusinya
 
-- `TASK_URL`: Specific claim URL (auto-detected if not provided)
-- `HTTP_METHOD`: GET or POST (default: POST)
-- `JSON_PAYLOAD`: JSON payload for POST requests
-- `TELEGRAM_TOKEN`: Bot token for notifications
-- `CHAT_ID`: Telegram chat ID for notifications
+**❌ "Missing required environment variables: COOKIE"**
+- ✅ Pastikan sudah set COOKIE di file .env
+- ✅ Pastikan cookie masih valid dan tidak expired
 
-## Usage Examples
+**❌ "Could not extract Zealy.io URL from cookie"**
+- ✅ Coba berikan URL manual dengan `--task-url`
+- ✅ Pastikan cookie mengandung domain zealy.io
 
-```bash
-# Basic claim
-python simple_main.py --run-once
+**❌ "Client error (401/403)"**
+- ✅ Cookie mungkin expired - ambil yang baru
+- ✅ Pastikan masih login di zealy.io
 
-# With custom payload
-python simple_main.py --payload '{"action":"claim","questId":"123"}' --run-once
+**❌ "Telegram test failed"**
+- ✅ Cek TELEGRAM_TOKEN dan CHAT_ID
+- ✅ Pastikan bot sudah ditambahkan ke chat
 
-# With specific URL
-python simple_main.py --task-url "https://zealy.io/api/quests/claim" --run-once
+**❌ "Module not found"**
+- ✅ Install dependencies: `pip install -r simple_requirements.txt`
+
+**❌ "Permission denied"**
+- ✅ Pastikan file .env bisa dibaca
+- ✅ Cek permission file
+
+### Cara Debug
+
+1. **Cek log file**: `zealy_claimer.log`
+2. **Test cookie**: Buka zealy.io di browser yang sama
+3. **Test Telegram**: Jalankan `python simple_main.py --test-telegram`
+4. **Cek konfigurasi**: Pastikan file .env sudah benar
+
+## 📱 Setup Telegram (Opsional)
+
+### Langkah 1: Buat Bot Telegram
+1. Chat dengan [@BotFather](https://t.me/botfather)
+2. Ketik `/newbot`
+3. Ikuti instruksi untuk buat bot
+4. **Simpan token** yang diberikan
+
+### Langkah 2: Dapatkan Chat ID
+1. Chat dengan bot yang baru dibuat
+2. Kirim pesan apapun
+3. Buka: `https://api.telegram.org/bot<TOKEN>/getUpdates`
+4. **Copy chat ID** dari response
+
+### Langkah 3: Update .env
+```env
+TELEGRAM_TOKEN=bot_token_dari_botfather
+CHAT_ID=chat_id_yang_di_copy
 ```
 
-## How It Works
+## 🎯 Tips & Trik
 
-1. **Cookie Extraction**: Automatically extracts the claim URL from your cookie
-2. **Request Building**: Creates proper headers with your session cookie
-3. **Claim Execution**: Sends POST/GET request to zealy.io
-4. **Retry Logic**: Retries up to 3 times on failure
-5. **Notifications**: Sends Telegram notifications (if configured)
+### Untuk Pemula
+- **Mulai simple**: Coba dulu tanpa Telegram
+- **Test dulu**: Selalu test dengan `--run-once`
+- **Backup cookie**: Simpan cookie di tempat aman
 
-## Troubleshooting
+### Untuk Advanced
+- **Custom payload**: Sesuaikan dengan API zealy.io
+- **Scheduling**: Gunakan cron job atau task scheduler
+- **Multiple accounts**: Buat beberapa file .env
 
-### Common Issues
-
-**"Missing required environment variables: COOKIE"**
-- Make sure you've set the COOKIE in your .env file
-- Ensure the cookie is valid and not expired
-
-**"Could not extract Zealy.io URL from cookie"**
-- Try providing the URL manually with `--task-url`
-- Check that your cookie contains zealy.io domain
-
-**"Client error (401/403)"**
-- Your cookie might be expired - get a fresh one
-- Make sure you're logged into zealy.io
-
-**"Telegram test failed"**
-- Check your TELEGRAM_TOKEN and CHAT_ID
-- Make sure the bot is added to your chat
-
-### Getting Help
-
-1. Check the logs in `zealy_claimer.log`
-2. Test your cookie by visiting zealy.io in the same browser
-3. Verify your Telegram bot setup
-
-## File Structure
+## 📁 Struktur File
 
 ```
-simple_zealy_claimer/
-├── simple_main.py              # Main script
+Asyafira-Airdrop-Bot/
+├── simple_main.py              # Script utama
 ├── utils/
-│   ├── simple_claimer.py       # Core claiming logic
-│   └── simple_telegram.py      # Telegram notifications
+│   ├── simple_claimer.py       # Logic klaim
+│   └── simple_telegram.py      # Notifikasi
 ├── simple_requirements.txt     # Dependencies
-├── simple_.env.example         # Configuration template
-└── SIMPLE_README.md           # This file
+├── simple_.env.example         # Template konfigurasi
+├── .env                        # Konfigurasi Anda (buat sendiri)
+└── zealy_claimer.log          # Log file (auto-generated)
 ```
 
-## Security Note
+## 🔒 Keamanan & Privasi
 
-- Keep your `.env` file secure and never commit it to version control
-- Your cookie contains session information - treat it like a password
-- Consider using environment variables in production
+### ⚠️ PENTING!
+- **Jangan share file .env** - berisi cookie session Anda
+- **Cookie = Password** - jangan kasih ke orang lain
+- **Backup aman** - simpan cookie di tempat yang aman
+- **Jangan commit .env** ke GitHub
+
+### 🛡️ Tips Keamanan
+- Gunakan environment variables di production
+- Ganti cookie secara berkala
+- Monitor log untuk aktivitas mencurigakan
+
+## 🆘 Support & Bantuan
+
+### Jika Ada Masalah
+1. **Baca troubleshooting** di atas dulu
+2. **Cek log file** `zealy_claimer.log`
+3. **Test step by step** sesuai panduan
+4. **Pastikan cookie valid** dan tidak expired
+
+### Kontak
+- **GitHub Issues**: [Buat issue di repository](https://github.com/rahmivinnn/Asyafira-Airdrop-Bot/issues)
+- **Documentation**: Baca README ini dengan teliti
+
+## 🎉 Selamat!
+
+Bot sudah siap digunakan! Ikuti langkah-langkah di atas dengan teliti, dan Anda akan bisa mengklaim task di zealy.io secara otomatis.
+
+**Happy claiming! 🚀**
 
 ---
 
